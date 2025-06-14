@@ -17,7 +17,7 @@ def question1(equation: str):
     return answers
 
 
-print(question1("6+2/3*4)"))
+#print(question1("6+2/3*4)"))
 
 
 
