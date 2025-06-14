@@ -20,4 +20,5 @@ def question1(equation: str):
 print(question1("6+2/3*4)"))
 
 
-def question2()
+
+#def question2()
