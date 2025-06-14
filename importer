@@ -1,0 +1,8 @@
+import h
+userinput = input("Enter a 16-digit number sequence. ")
+number = int(input("Enter a number."))
+a = h.check(userinput)
+print(f"You have put a {a} input.")
+if a == True:
+    b = h.digit_sum(userinput, number)
+    print(b)
