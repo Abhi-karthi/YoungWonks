@@ -6,10 +6,12 @@ import threading
 number_of_clients = 3
 
 
-def send_all(data):
+def send_all(data_to_send):
     global clients
+    print("sending to all")
     for i in clients:
-        i.sendall(data.encode())
+        print("client", i)
+        i.sendall(data_to_send.encode())
 
 
 def receive_data(conn):
@@ -19,10 +21,10 @@ def receive_data(conn):
         new_data = conn.recv(1024).decode()
         real_data = new_data[0:-7]
         key = new_data[-7:-1] + new_data[-1]
-        print(real_data)
+        # print(real_data)
         if key[0:-1] == "client":
             data.append([key, real_data])
-            print("Received", new_data)
+            print("Received", real_data)
 
         # labels[-1].pack()
 
@@ -34,6 +36,7 @@ def send_data(conn):
         main_string += "||"
         main_string += i
 
+    print(main_string)
     send_all(main_string)
 
     # global server_key
@@ -55,7 +58,7 @@ s = socket.socket(socket.AF_INET, socket .SOCK_STREAM)
 threads = []
 
 host = '172.30.22.0'
-port = 10000
+port = 10007
 s.bind((host, port))
 s.listen(5)
 clients = {}
@@ -66,8 +69,8 @@ threads_in_server_for_receive_and_send = []
 def new_thread_for_receive_and_send(conn):
     global threads_in_server_for_receive_and_send
     print("running")
-    threads_in_server_for_receive_and_send.append(threading.Thread(receive_data, args=(conn,)))
-    threads_in_server_for_receive_and_send.append(threading.Thread(send_data, args=(conn,)))
+    threads_in_server_for_receive_and_send.append(threading.Thread(target=receive_data, args=(conn,)))
+    threads_in_server_for_receive_and_send.append(threading.Thread(target=send_data, args=(conn,)))
     threads_in_server_for_receive_and_send[-2].start()
     threads_in_server_for_receive_and_send[-1].start()
 
@@ -90,6 +93,8 @@ labels = []
 chat_info = []
 data_sent = []
 entry = Entry(root)
+accept_thread = threading.Thread(target=accept)
+accept_thread.start()
 server_key = "server7"
 
 

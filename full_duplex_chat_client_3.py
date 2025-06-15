@@ -15,7 +15,7 @@ def handle_exit():
 
 atexit.register(handle_exit)
 host = '172.30.22.0'
-port = 10000
+port = 10007
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s. connect((host, port))
 print(s)
@@ -59,6 +59,8 @@ def send_data():
                 data = chat_info[-1] + client_key
                 s.sendall(data.encode())
                 data_sent.append(chat_info[-1])
+            else:
+                s.sendall("trash".encode())
         except IndexError:
             pass
 
