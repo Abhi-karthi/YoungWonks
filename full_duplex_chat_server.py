@@ -13,8 +13,9 @@ def send_all(data):
 
 
 def receive_data(conn):
+    print(1)
     while True:
-        print(data)
+        # print(data)
         new_data = conn.recv(1024).decode()
         real_data = new_data[0:-7]
         key = new_data[-7:-1] + new_data[-1]
@@ -59,20 +60,25 @@ s.bind((host, port))
 s.listen(5)
 clients = {}
 data = []
+threads_in_server_for_receive_and_send = []
 
 
 def new_thread_for_receive_and_send(conn):
-    new_thread = threading.Thread(receive_data, args=(conn,))
-    new_thread2 = threading.Thread(send_data, args=(conn,))
-    new_thread.start()
-    new_thread2.start()
+    global threads_in_server_for_receive_and_send
+    print("running")
+    threads_in_server_for_receive_and_send.append(threading.Thread(receive_data, args=(conn,)))
+    threads_in_server_for_receive_and_send.append(threading.Thread(send_data, args=(conn,)))
+    threads_in_server_for_receive_and_send[-2].start()
+    threads_in_server_for_receive_and_send[-1].start()
 
 
 def accept():
+    global threads
     while True:
         conn, addr = s.accept()
         clients[conn] = addr
         threads.append(threading.Thread(target=new_thread_for_receive_and_send, args=(conn,)))
+        print(threads)
         threads[-1].start()
 
 

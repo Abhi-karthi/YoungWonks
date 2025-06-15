@@ -41,7 +41,8 @@ def button_command():
             send_valid = False
 
     if send_valid:
-        chat_info.append(entry_text)
+        if len(entry_text) != 0:
+            chat_info.append(entry_text)
     else:
         entry.insert(0, 'Sending "||" is invalid')
     print(chat_info)
