@@ -3,7 +3,7 @@ import atexit
 from tkinter import *
 import threading
 
-client_number = 1
+client_number = 2
 number_of_clients = 3
 client_colors = ["red", "green", "blue", "white", "orange"]
 
