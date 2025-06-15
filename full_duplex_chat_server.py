@@ -3,6 +3,8 @@ import atexit
 from tkinter import *
 import threading
 
+number_of_clients = 3
+
 
 def send_all(data):
     global clients
@@ -17,30 +19,11 @@ def receive_data(conn):
         real_data = new_data[0:-7]
         key = new_data[-7:-1] + new_data[-1]
         print(real_data)
-        if key == "client1":
-            labels.append(Label(chat_widget, text=real_data, background="red"))
-            send = True
-            for i in data:
-                if i[0] == "client1":
-                    if i[1] == data:
-                        send = False
+        if key[0:-1] == "client":
+            data.append([key, real_data])
+            print("Received", new_data)
 
-            if send:
-                data.append(["client1", real_data])
-
-        elif key == "client2":
-            labels.append(Label(chat_widget, text=real_data, background="blue"))
-            send = True
-            for i in data:
-                if i[0] == "client2":
-                    if i[1] == data:
-                        send = False
-
-            if send:
-                data.append(["client2", real_data])
-
-        labels[-1].pack()
-        # print("Received", new_data)
+        # labels[-1].pack()
 
 
 def send_data(conn):
@@ -51,7 +34,6 @@ def send_data(conn):
         main_string += i
 
     send_all(main_string)
-
 
     # global server_key
     # if chat_info[-1] not in data_sent:
@@ -65,6 +47,7 @@ def handle_exit():
     print("This runs after keyboard interrupt")
     s.close()
 
+
 atexit.register(handle_exit)
 
 s = socket.socket(socket.AF_INET, socket .SOCK_STREAM)
@@ -72,10 +55,11 @@ threads = []
 
 host = '172.30.22.0'
 port = 10000
-s.bind ( (host, port))
+s.bind((host, port))
 s.listen(5)
 clients = {}
 data = []
+
 
 def new_thread_for_receive_and_send(conn):
     new_thread = threading.Thread(receive_data, args=(conn,))
@@ -83,13 +67,13 @@ def new_thread_for_receive_and_send(conn):
     new_thread.start()
     new_thread2.start()
 
+
 def accept():
     while True:
         conn, addr = s.accept()
         clients[conn] = addr
         threads.append(threading.Thread(target=new_thread_for_receive_and_send, args=(conn,)))
         threads[-1].start()
-
 
 
 root = Tk()
