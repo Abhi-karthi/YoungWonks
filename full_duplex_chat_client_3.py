@@ -15,7 +15,7 @@ def handle_exit():
 
 atexit.register(handle_exit)
 host = '172.30.22.0'
-port = 10009
+port = 10010
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, port))
 print(s)

@@ -15,7 +15,7 @@ def handle_exit():
 
 atexit.register(handle_exit)
 host = '172.30.22.0'
-port = 10009
+port = 10010
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s. connect((host, port))
 print(s)
@@ -89,7 +89,8 @@ def receive_data():
                     color_of_label = client_colors[x]
                     break
             try:
-                new_labels.append(Label(chat_widget, text=main_data_list[i], fg=f"{color_of_label}"))
+                print(i)
+                new_labels.append(Label(chat_widget, text=main_data_list[i + 1], fg=f"{color_of_label}"))
             except TclError:
                 pass
 

@@ -60,7 +60,7 @@ s = socket.socket(socket.AF_INET, socket .SOCK_STREAM)
 threads = []
 
 host = '172.30.22.0'
-port = 10009
+port = 10010
 s.bind((host, port))
 s.listen(5)
 clients = {}
