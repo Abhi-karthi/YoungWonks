@@ -15,7 +15,7 @@ def handle_exit():
 
 atexit.register(handle_exit)
 host = '172.30.22.0'
-port = 10007
+port = 10009
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s. connect((host, port))
 print(s)
@@ -26,7 +26,7 @@ root.title(f"Chat Client {client_number}")
 chat_widget = Frame(root)
 labels = []
 chat_info = []
-data_sent = []
+data_sent = 0
 entry = Entry(root, fg=client_colors[client_number-1])
 client_key = f"client{client_number}"
 
@@ -45,34 +45,37 @@ def button_command():
             chat_info.append(entry_text)
     else:
         entry.insert(0, 'Sending "||" is invalid')
-    print(chat_info)
+    # print(chat_info)
     # send_data()
     # labels[-1].pack()
     # print(labels)
 
 
 def send_data():
-    global client_key
+    global client_key, data_sent
     while True:
         try:
-            if chat_info[-1] not in data_sent:
+            if len(chat_info) >= data_sent + 1:
                 data = chat_info[-1] + client_key
                 s.sendall(data.encode())
-                data_sent.append(chat_info[-1])
+                data_sent += 1
             else:
-                s.sendall("trash".encode())
+                s.sendall("traaaaaaash".encode())
         except IndexError:
             pass
 
 
 def receive_data():
-    global labels
+    global labels, s
+    print("1, 2")
     while True:
+        print("hello")
         new_data = s.recv(1024).decode()
-
+        print(new_data, 3)
         new_data_list = new_data.split("||")
         clients_list = []
         main_data_list = []
+        new_labels = []
         for i, v in enumerate(new_data_list):
             if i % 2 == 0:
                 clients_list.append(v)
@@ -85,9 +88,12 @@ def receive_data():
                 if clients_list[i] == f"client{x+1}":
                     color_of_label = client_colors[x]
                     break
-            labels.append(Label(chat_widget, text=main_data_list[i], fg=f"{color_of_label}"))
+            new_labels.append(Label(chat_widget, text=main_data_list[i], fg=f"{color_of_label}"))
 
-        labels[-1].pack()
+        if new_labels != labels:
+            labels.append(new_labels[-1])
+            labels[-1].pack()
+
 
 
 recp = threading.Thread(target=receive_data)

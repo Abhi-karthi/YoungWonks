@@ -33,8 +33,9 @@ def send_data(conn):
     global data
     main_string = ""
     for i in data:
-        main_string += "||"
-        main_string += i
+        for x in i:
+            main_string += "||"
+            main_string += x
 
     print(main_string)
     send_all(main_string)
@@ -58,7 +59,7 @@ s = socket.socket(socket.AF_INET, socket .SOCK_STREAM)
 threads = []
 
 host = '172.30.22.0'
-port = 10007
+port = 10009
 s.bind((host, port))
 s.listen(5)
 clients = {}
@@ -97,6 +98,8 @@ accept_thread = threading.Thread(target=accept)
 accept_thread.start()
 server_key = "server7"
 
+accept_thread = threading.Thread(target=accept)
+accept_thread.start()
 
 # def button_command():
 #     labels.append(Label(chat_widget, text=f"{entry.get()}"))
