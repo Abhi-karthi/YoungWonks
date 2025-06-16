@@ -86,14 +86,14 @@ def accept():
         threads[-1].start()
 
 
-root = Tk()
-root.title("Chat Server")
+# root = Tk()
+# root.title("Chat Server")
 
-chat_widget = Frame(root)
+# chat_widget = Frame(root)
 labels = []
 chat_info = []
 data_sent = []
-entry = Entry(root)
+# entry = Entry(root)
 accept_thread = threading.Thread(target=accept)
 accept_thread.start()
 server_key = "server7"
@@ -122,11 +122,11 @@ accept_thread.start()
 
 # button = Button(root, text="Enter", command=button_command)
 
-chat_widget.pack()
+# chat_widget.pack()
 # label.pack()
 # for i in labels:
 #     i.pack()
-entry.pack()
+# entry.pack()
 # button.pack()
 
-root.mainloop()
+# root.mainloop()

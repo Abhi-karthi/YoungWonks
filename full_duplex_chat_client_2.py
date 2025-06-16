@@ -88,7 +88,10 @@ def receive_data():
                 if clients_list[i] == f"client{x+1}":
                     color_of_label = client_colors[x]
                     break
-            new_labels.append(Label(chat_widget, text=main_data_list[i], fg=f"{color_of_label}"))
+            try:
+                new_labels.append(Label(chat_widget, text=main_data_list[i], fg=f"{color_of_label}"))
+            except TclError:
+                pass
 
         if new_labels != labels:
             labels.append(new_labels[-1])

@@ -17,7 +17,7 @@ atexit.register(handle_exit)
 host = '172.30.22.0'
 port = 10009
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s. connect((host, port))
+s.connect((host, port))
 print(s)
 print("connected")
 
@@ -27,7 +27,7 @@ chat_widget = Frame(root)
 labels = []
 chat_info = []
 data_sent = 0
-entry = Entry(root, fg=client_colors[client_number-1])
+entry = Entry(root, fg=client_colors[client_number - 1])
 client_key = f"client{client_number}"
 
 
@@ -37,7 +37,7 @@ def button_command():
     entry.delete(0, END)
     send_valid = True
     for i in range(len(entry_text)):
-        if entry_text[i] == "|" and entry_text[i+1] == "|":
+        if entry_text[i] == "|" and entry_text[i + 1] == "|":
             send_valid = False
 
     if send_valid:
@@ -85,15 +85,17 @@ def receive_data():
         for i in range(len(clients_list)):
             color_of_label = ""
             for x in range(number_of_clients):
-                if clients_list[i] == f"client{x+1}":
+                if clients_list[i] == f"client{x + 1}":
                     color_of_label = client_colors[x]
                     break
-            new_labels.append(Label(chat_widget, text=main_data_list[i], fg=f"{color_of_label}"))
+            try:
+                new_labels.append(Label(chat_widget, text=main_data_list[i], fg=f"{color_of_label}"))
+            except TclError:
+                pass
 
         if new_labels != labels:
             labels.append(new_labels[-1])
             labels[-1].pack()
-
 
 
 recp = threading.Thread(target=receive_data)
