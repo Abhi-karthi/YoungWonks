@@ -31,14 +31,15 @@ def receive_data(conn):
 
 def send_data(conn):
     global data
-    main_string = ""
-    for i in data:
-        for x in i:
-            main_string += "||"
-            main_string += x
+    while True:
+        main_string = ""
+        for i in data:
+            for x in i:
+                main_string += "||"
+                main_string += x
 
-    print(main_string)
-    send_all(main_string)
+        print(main_string)
+        send_all(main_string)
 
     # global server_key
     # if chat_info[-1] not in data_sent:
